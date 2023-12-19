@@ -1,9 +1,9 @@
 #!/usr/bin/env node
-'use strict';
+"use strict";
 
-const process = require('process');
+const process = require("process");
 
-const spawnSync = require('../common/cross-spawn-sync');
+const spawnSync = require("../common/cross-spawn-sync");
 
 function checkWorkspaceDependencies() {
   const workspacesInfo = getWorkspacesInfo();
@@ -20,8 +20,8 @@ function checkWorkspaceDependencies() {
     const singular = count === 1;
     console.warn(
       `⚠️  Found ${count} ${
-        singular ? 'dependency' : 'dependencies'
-      } installed from npm instead of being symlinked because the semver ranges in package.json are not satisfied by the workspaces in this repository.`
+        singular ? "dependency" : "dependencies"
+      } installed from npm instead of being symlinked because the semver ranges in package.json are not satisfied by the workspaces in this repository.`,
     );
   }
 
@@ -32,8 +32,8 @@ function checkWorkspaceDependencies() {
       const singular = mismatchedWorkspaceDependencies.length === 1;
       console.warn(
         `   ${workspaceName} has ${mismatchedWorkspaceDependencies.length} ${
-          singular ? 'dependency' : 'dependencies'
-        } that ${singular ? `isn't` : `aren't`} symlinked:`
+          singular ? "dependency" : "dependencies"
+        } that ${singular ? `isn't` : `aren't`} symlinked:`,
       );
       for (const dependency of mismatchedWorkspaceDependencies) {
         console.warn(`     ${dependency}`);
@@ -45,7 +45,7 @@ function checkWorkspaceDependencies() {
 }
 
 function getWorkspacesInfo() {
-  const result = spawnSync('yarn', ['--silent', 'workspaces', 'info']);
+  const result = spawnSync("yarn", ["--silent", "workspaces", "info"]);
 
   if (result.error) {
     console.error(`Could not run yarn: ${result.error.message}`);
@@ -89,7 +89,8 @@ function getWorkspacesInfo() {
 function countMismatchedWorkspaceDependencies(workspacesInfo) {
   let count = 0;
   for (const workspaceName in workspacesInfo) {
-    count += workspacesInfo[workspaceName].mismatchedWorkspaceDependencies.length;
+    count +=
+      workspacesInfo[workspaceName].mismatchedWorkspaceDependencies.length;
   }
   return count;
 }

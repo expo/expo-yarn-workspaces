@@ -1,12 +1,12 @@
-const createExpoWebpackConfigAsync = require('@expo/webpack-config');
-const debug = require('debug')('workspaces');
-const findYarnWorkspaceRoot = require('find-yarn-workspace-root');
-const globModule = require('glob');
-const path = require('path');
-const util = require('util');
+const createExpoWebpackConfigAsync = require("@expo/webpack-config");
+const debug = require("debug")("workspaces");
+const findYarnWorkspaceRoot = require("find-yarn-workspace-root");
+const globModule = require("glob");
+const path = require("path");
+const util = require("util");
 
 const glob = util.promisify(globModule);
-const getSymlinkedNodeModulesForDirectory = require('./common/get-symlinked-modules');
+const getSymlinkedNodeModulesForDirectory = require("./common/get-symlinked-modules");
 
 /**
  * Returns a webpack configuration object that:
@@ -15,21 +15,30 @@ const getSymlinkedNodeModulesForDirectory = require('./common/get-symlinked-modu
  *    * watches for file changes in symlinked packages
  *    * allows for additional custom packages to be transpiled via env.babel argument
  */
-exports.createWebpackConfigAsync = async function createWebpackConfigAsync(env, argv) {
+exports.createWebpackConfigAsync = async function createWebpackConfigAsync(
+  env,
+  argv,
+) {
   const workspacePackagesToTranspile = [];
   const workspaceRootPath = findYarnWorkspaceRoot(env.projectRoot);
 
   if (workspaceRootPath) {
     debug(`Found Yarn workspace root at %s`, workspaceRootPath);
 
-    const symlinkedModules = getSymlinkedNodeModulesForDirectory(workspaceRootPath);
+    const symlinkedModules =
+      getSymlinkedNodeModulesForDirectory(workspaceRootPath);
     const symlinkedModulePaths = Object.values(symlinkedModules);
-    const workspacePackage = require(path.resolve(workspaceRootPath, 'package.json'));
+    const workspacePackage = require(
+      path.resolve(workspaceRootPath, "package.json"),
+    );
 
     // discover workspace package directories via glob - source yarn:
     // https://github.com/yarnpkg/yarn/blob/a4708b29ac74df97bac45365cba4f1d62537ceb7/src/config.js#L812-L826
-    const patterns = workspacePackage.workspaces?.packages ?? workspacePackage.workspaces ?? [];
-    const registryFilenames = 'package.json';
+    const patterns =
+      workspacePackage.workspaces?.packages ??
+      workspacePackage.workspaces ??
+      [];
+    const registryFilenames = "package.json";
     const trailingPattern = `/+(${registryFilenames})`;
 
     const files = await Promise.all(
@@ -37,8 +46,8 @@ exports.createWebpackConfigAsync = async function createWebpackConfigAsync(env, 
         glob(pattern.replace(/\/?$/, trailingPattern), {
           cwd: workspaceRootPath,
           ignore: `/node_modules/**/+(${registryFilenames})`,
-        })
-      )
+        }),
+      ),
     );
 
     for (const file of new Set(files.flat())) {
@@ -63,7 +72,7 @@ exports.createWebpackConfigAsync = async function createWebpackConfigAsync(env, 
         ],
       },
     },
-    argv
+    argv,
   );
 
   // use symlink resolution so that webpack watches file changes

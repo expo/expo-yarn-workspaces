@@ -1,8 +1,8 @@
-'use strict';
+"use strict";
 
-const { getDefaultConfig } = require('@expo/metro-config');
-const debug = require('debug')('workspaces');
-const path = require('path');
+const { getDefaultConfig } = require("@expo/metro-config");
+const debug = require("debug")("workspaces");
+const path = require("path");
 
 /**
  * Returns a configuration object in the format expected for "metro.config.js" files. The
@@ -10,7 +10,10 @@ const path = require('path');
  *
  *   * excludes modules in the native Android and Xcode projects
  */
-exports.createMetroConfiguration = function createMetroConfiguration(projectPath, options) {
+exports.createMetroConfiguration = function createMetroConfiguration(
+  projectPath,
+  options,
+) {
   projectPath = path.resolve(projectPath);
   debug(`Creating a Metro configuration for the project at %s`, projectPath);
   const {
@@ -27,7 +30,7 @@ exports.createMetroConfiguration = function createMetroConfiguration(projectPath
     resolver: {
       ...defaultConfig.resolver,
       // test-suite includes a db asset
-      assetExts: [...defaultConfig.resolver.assetExts, 'db'],
+      assetExts: [...defaultConfig.resolver.assetExts, "db"],
 
       // Ignore test files and JS files in the native Android and Xcode projects
       blockList: [

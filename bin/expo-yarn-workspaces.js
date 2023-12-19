@@ -1,26 +1,34 @@
 #!/usr/bin/env node
-'use strict';
+"use strict";
 
-const minimist = require('minimist');
-const path = require('path');
-const process = require('process');
+const minimist = require("minimist");
+const path = require("path");
+const process = require("process");
 
-const spawnSync = require('../common/cross-spawn-sync');
+const spawnSync = require("../common/cross-spawn-sync");
 
 const argv = minimist(process.argv.slice(2));
 switch (argv._[0]) {
-  case 'check-workspace-dependencies':
-    _spawnSubprocess('node', [path.join(__dirname, 'check-workspace-dependencies.js')], {
-      stdio: 'inherit',
-    });
+  case "check-workspace-dependencies":
+    _spawnSubprocess(
+      "node",
+      [path.join(__dirname, "check-workspace-dependencies.js")],
+      {
+        stdio: "inherit",
+      },
+    );
     break;
 
-  case 'postinstall':
-    _spawnSubprocess('node', [path.join(__dirname, 'symlink-necessary-packages.js')], {
-      stdio: 'inherit',
-    });
-    _spawnSubprocess('node', [path.join(__dirname, 'make-entry-module.js')], {
-      stdio: 'inherit',
+  case "postinstall":
+    _spawnSubprocess(
+      "node",
+      [path.join(__dirname, "symlink-necessary-packages.js")],
+      {
+        stdio: "inherit",
+      },
+    );
+    _spawnSubprocess("node", [path.join(__dirname, "make-entry-module.js")], {
+      stdio: "inherit",
     });
     break;
 }
