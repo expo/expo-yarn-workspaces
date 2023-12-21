@@ -1,5 +1,7 @@
 # Expo Yarn Workspaces
 
+> ⚠️ This package has been deprecated and replaced with proper monorepo support starting from Expo SDK 49. [Learn more](https://docs.expo.dev/guides/monorepos/)
+
 This is a package that provides support for Yarn workspaces within monorepos like the Expo repository. It finesses Yarn workspaces, Metro, and the Expo repository to work together.
 
 **Note:** This package runs only on macOS and Linux.
